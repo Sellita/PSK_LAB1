@@ -1,8 +1,10 @@
 package com.example.lab.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -14,4 +16,7 @@ public class Product {
     private Integer id;
 
     private String name;
+
+    @OneToMany(mappedBy = "product")
+    private Set<FridgeProduct> fridgeProduct;
 }

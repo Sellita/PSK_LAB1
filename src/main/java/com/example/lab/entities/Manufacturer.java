@@ -1,9 +1,11 @@
 package com.example.lab.entities;
 
 import jakarta.validation.constraints.Size;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "MANUFACTURER")
@@ -17,4 +19,7 @@ public class Manufacturer {
     @Size(max = 50)
     @Column(name = "NAME")
     private String name;
+
+    @OneToMany(mappedBy = "manufacturer")
+    public Set<Fridge> fridges;
 }

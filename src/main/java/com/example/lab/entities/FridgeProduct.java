@@ -1,6 +1,6 @@
 package com.example.lab.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,8 +13,12 @@ public class FridgeProduct {
     @Column(name = "ID")
     private Integer id;
 
-    @OneToOne
-    @JoinTable(name = "PRODUCT")
+    @ManyToOne
+    @JoinColumn(name = "FRIDGE_ID")
+    public Fridge fridge;
+
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_ID")
     public Product product;
 
     private Integer quantity;

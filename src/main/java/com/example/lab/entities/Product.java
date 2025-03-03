@@ -19,4 +19,12 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private Set<FridgeProduct> fridgeProduct;
+
+    @ManyToMany
+    @JoinTable(
+            name = "PRODUCTTYPE_PRODUCT",
+            joinColumns = @JoinColumn(name = "PRODUCT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PRODUCTTYPE_ID")
+    )
+    private Set<ProductType> productTypes;
 }

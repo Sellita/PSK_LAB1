@@ -5,35 +5,30 @@ import com.example.lab.persistance.FridgesDAO;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
-import javax.transaction.Transactional;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import java.io.Serializable;
+import java.util.Map;
 
 @Model
 public class FridgeController {
+
     @Inject
     private FridgesDAO fridgesDAO;
 
-    @Getter
-    @Setter
-    private Fridge fridgeToCreate = new Fridge();
-
-    @Getter
-    private List<Fridge> allFridges;
+    @Getter @Setter
+    private Fridge fridge;
 
     @PostConstruct
-    public void init(){
-        loadAllFridges();
+    public void init() {
+        Map<String, String> requestParameters =
+                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        Integer teamId = Integer.parseInt(requestParameters.get("fridgeId"));
+        this.fridge = fridgesDAO.findOne(teamId);
     }
 
-    @Transactional
-    public void createFridge(){
-        this.fridgesDAO.persist(fridgeToCreate);
-    }
 
-    private void loadAllFridges(){
-        this.allFridges = fridgesDAO.loadAll();
-    }
 }

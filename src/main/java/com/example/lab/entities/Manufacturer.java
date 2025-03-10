@@ -9,6 +9,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "MANUFACTURER")
+@NamedQueries({
+        @NamedQuery(name = "Manufacturers.FindAll", query = "select t from Manufacturer as t")
+})
 @Getter @Setter
 public class Manufacturer {
     @Id

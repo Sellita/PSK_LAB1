@@ -7,23 +7,27 @@
       xmlns:f="http://java.sun.com/jsf/core">
 <h:head/>
 <h:body>
-    <h2>#{fridgeController.fridge.name}; #{fridgeController.fridge.manufacturer}:</h2>
+    <h2>#{fridgeController.fridge.name} - "#{fridgeController.fridge.manufacturer.name}":</h2>
     <ol>
-        <ui:repeat value="#{fridgeController.fridge.fridgeProducts}" var="player">
+        <ui:repeat value="#{fridgeController.fridge.fridgeProducts}" var="fridgeProduct">
             <li>
                 <h:link value="#{fridgeProduct.product.name} #{fridgeProduct.quantity}" />
             </li>
         </ui:repeat>
     </ol>
+    <h3>Quantity: #{fridgeController.fridge.fridgeProducts.size()}</h3>
 
-<!--    <h:form>-->
-<!--        <h:inputText a:placeholder="name" value="#{playersForTeam.playerToCreate.name}" required="true" />-->
-<!--        <h:commandButton value="Add player to the team"-->
-<!--                         actionListener="#{playersForTeam.createPlayer}"-->
-<!--                         action="#{'players?faces-redirect=true&amp;teamId='.concat(playersForTeam.team.id)}">-->
-<!--                <f:param name="teamId" value="#{playersForTeam.team.id}" />-->
-<!--        </h:commandButton>-->
-<!--    </h:form>-->
+    <h:form>
+        <h:selectOneMenu value="#{fridgeController.productIdToChange}">
+            <f:selectItems value="#{fridgeController.allProducts}" var="product" itemValue="#{product.id}" itemLabel="#{product.name}" />
+        </h:selectOneMenu>
+        <h:inputText a:placeholder="name" value="#{fridgeController.quantityToChange}" required="true" type="number"/>
+        <h:commandButton value="Update quantity"
+                         actionListener="#{fridgeController.updateQuantity}"
+                        >
+                <f:param name="fridgeId" value="#{fridgeController.fridge.id}" />
+        </h:commandButton>
+    </h:form>
     <h:link outcome="fridgesManagement.xhtml" value="Back to fridges page"/>
 </h:body>
 </html>

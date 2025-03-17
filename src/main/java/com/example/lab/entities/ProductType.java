@@ -8,6 +8,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "PRODUCTTYPE")
+@NamedQueries({
+        @NamedQuery(name = "ProductsTypes.FindAll", query = "select t from ProductType as t")
+})
 @Getter
 @Setter
 public class ProductType {
@@ -22,11 +25,6 @@ public class ProductType {
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @ManyToMany
-    @JoinTable(
-            name = "PRODUCTTYPE_PRODUCT",
-            joinColumns = @JoinColumn(name = "PRODUCTTYPE_ID"),
-            inverseJoinColumns = @JoinColumn(name = "PRODUCT_ID")
-    )
+    @ManyToMany(mappedBy = "productTypes")
     private Set<Product> products;
 }

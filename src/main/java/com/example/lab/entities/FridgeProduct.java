@@ -6,6 +6,9 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "FRIDGEPRODUCT")
+@NamedQueries({
+        @NamedQuery(name = "FridgeProduct.FindAll", query = "select t from FridgeProduct as t")
+})
 @Getter @Setter
 public class FridgeProduct {
     @Id

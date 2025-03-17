@@ -8,6 +8,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "PRODUCT")
+@NamedQueries({
+        @NamedQuery(name = "Products.FindAll", query = "select t from Product as t")
+})
 @Getter @Setter
 public class Product {
     @Id

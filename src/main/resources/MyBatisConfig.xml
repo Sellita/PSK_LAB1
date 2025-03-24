@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias type="com.example.lab.mybatis.model.Fridge" alias="Fridge"/>
+        <typeAlias type="com.example.lab.mybatis.model.Fridgeproduct" alias="Fridgeproduct"/>
+        <typeAlias type="com.example.lab.mybatis.model.Product" alias="Product"/>
+        <typeAlias type="com.example.lab.mybatis.model.Producttype" alias="Producttype"/>
+        <typeAlias type="com.example.lab.mybatis.model.ProducttypeProduct" alias="ProducttypeProduct"/>
+        <typeAlias type="com.example.lab.mybatis.model.Manufacturer" alias="Manufacturer"/>
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="MANAGED"/>
+            <dataSource type="JNDI">
+                <property name="data_source" value="FridgesDataSource"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="xml/FridgeMapper.xml"/>
+        <mapper resource="xml/FridgeproductMapper.xml"/>
+        <mapper resource="xml/ManufacturerMapper.xml"/>
+        <mapper resource="xml/ProductMapper.xml"/>
+        <mapper resource="xml/ProducttypeMapper.xml"/>
+        <mapper resource="xml/ProducttypeProductMapper.xml"/>
+    </mappers>
+</configuration>

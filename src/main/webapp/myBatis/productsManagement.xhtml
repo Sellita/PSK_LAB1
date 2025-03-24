@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+>
+<h:head/>
+<h:body>
+    <h1>Products:</h1>
+    <ol>
+        <ui:repeat value="#{myBatisProductsManagementController.allProducts}" var="product">
+            <li><h:link value="#{product.name}" outcome="product?productId=#{product.id}" /></li>
+        </ui:repeat>
+    </ol>
+
+    <h:form>
+        <h:inputText value="#{myBatisProductsManagementController.productToCreate.name}" required="true" />
+        <br/>
+        <h:selectManyMenu value="#{myBatisProductsManagementController.selectedProductTypes}"  style="height: 200px;">
+            <f:selectItems value="#{myBatisProductsManagementController.productTypes}" var="productType" itemValue="#{productType.id}" itemLabel="#{productType.name}" />
+        </h:selectManyMenu>
+        <br/>
+        <h:commandButton value="Add new product" actionListener="#{myBatisProductsManagementController.createProduct}" action="index?faces-redirect=true"/>
+    </h:form>
+
+    <a href="index.xhtml">Home page</a>
+</h:body>
+</html>

@@ -1,9 +1,9 @@
 package com.example.lab.controllers;
 
-import com.example.lab.entities.Fridge;
-import com.example.lab.entities.Manufacturer;
-import com.example.lab.persistance.FridgesDAO;
-import com.example.lab.persistance.ManufacturersDAO;
+import com.example.lab.mybatis.dao.FridgeMapper;
+import com.example.lab.mybatis.dao.ManufacturerMapper;
+import com.example.lab.mybatis.model.Fridge;
+import com.example.lab.mybatis.model.Manufacturer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,9 +16,9 @@ import java.util.List;
 @Model
 public class MyBatisFridgeManagementController {
     @Inject
-    private FridgesDAO fridgesDAO;
+    private FridgeMapper fridgeMapper;
     @Inject
-    private ManufacturersDAO manufacturersDAO;
+    private ManufacturerMapper manufacturerMapper;
 
     @Getter
     @Setter
@@ -46,16 +46,15 @@ public class MyBatisFridgeManagementController {
 
     @Transactional
     public void createFridge(){
-        var manufacturer = manufacturers.stream().filter(m -> m.getId() == manufacturerId).findFirst().orElse(null);
-        fridgeToCreate.setManufacturer(manufacturer);
-        this.fridgesDAO.persist(fridgeToCreate);
+        fridgeToCreate.setManufacturerId(manufacturerId);
+        this.fridgeMapper.insert(fridgeToCreate);
     }
 
     private void loadAllFridges(){
-        this.allFridges = fridgesDAO.loadAll();
+        this.allFridges = fridgeMapper.selectAll();
     }
 
     private void loadAllManufacturers(){
-        this.manufacturers = manufacturersDAO.loadAll();
+        this.manufacturers = manufacturerMapper.selectAll();
     }
 }

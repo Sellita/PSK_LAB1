@@ -27,6 +27,17 @@
                         >
                 <f:param name="fridgeId" value="#{fridgeController.fridge.id}" />
         </h:commandButton>
+        <h:commandButton value="Reduce quantity"
+                         actionListener="#{fridgeController.reduceQuantity}"
+                        >
+                <f:param name="fridgeId" value="#{fridgeController.fridge.id}" />
+        </h:commandButton>
+
+        <h:commandButton value="Session save"
+                         actionListener="#{fridgeController.saveSession}"
+                        >
+                <f:param name="fridgeId" value="#{fridgeController.fridge.id}" />
+        </h:commandButton>
     </h:form>
     <h:link outcome="fridgesManagement.xhtml" value="Back to fridges page"/>
 </h:body>

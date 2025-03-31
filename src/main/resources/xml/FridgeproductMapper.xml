@@ -11,6 +11,8 @@
     <result column="QUANTITY" jdbcType="INTEGER" property="quantity" />
     <result column="FRIDGE_ID" jdbcType="INTEGER" property="fridgeId" />
     <result column="PRODUCT_ID" jdbcType="INTEGER" property="productId" />
+    <association property="product" column="PRODUCT_ID" javaType="com.example.lab.mybatis.model.Product" select="selectProductById">
+    </association>
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
@@ -62,5 +64,15 @@
     -->
     select ID, QUANTITY, FRIDGE_ID, PRODUCT_ID
     from PUBLIC.FRIDGEPRODUCT
+  </select>
+
+  <select id="selectProductById" parameterType="java.lang.Integer" resultType="com.example.lab.mybatis.model.Product">
+    select * from PUBLIC.PRODUCT where ID = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectFridgeProductsByFridgeId" parameterType="java.lang.Integer" resultType="com.example.lab.mybatis.model.Fridgeproduct">
+    select ID, QUANTITY, FRIDGE_ID, PRODUCT_ID
+    from PUBLIC.FRIDGEPRODUCT
+    where FRIDGE_ID = #{id,jdbcType=INTEGER}
   </select>
 </mapper>

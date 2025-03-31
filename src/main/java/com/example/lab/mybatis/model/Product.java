@@ -1,5 +1,10 @@
 package com.example.lab.mybatis.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Set;
+
 public class Product {
     /**
      *
@@ -66,4 +71,7 @@ public class Product {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Getter @Setter
+    private Set<Producttype> productTypes;
 }

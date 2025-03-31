@@ -1,7 +1,7 @@
 package com.example.lab.controllers;
 
-import com.example.lab.entities.Product;
-import com.example.lab.persistance.ProductsDAO;
+import com.example.lab.mybatis.dao.ProductMapper;
+import com.example.lab.mybatis.model.Product;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +15,7 @@ import java.util.Map;
 public class MyBatisProductController {
 
     @Inject
-    private ProductsDAO productsDAO;
+    private ProductMapper productMapper;
 
     @Getter @Setter
     private Product product;
@@ -25,7 +25,7 @@ public class MyBatisProductController {
         Map<String, String> requestParameters =
                 FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         Integer productId = Integer.parseInt(requestParameters.get("productId"));
-        this.product = productsDAO.findOne(productId);
+        this.product = productMapper.selectByPrimaryKey(productId);
     }
 
 

@@ -1,5 +1,9 @@
 package com.example.lab.mybatis.model;
 
+import com.example.lab.mybatis.model.Product;
+import lombok.Getter;
+import lombok.Setter;
+
 public class Fridgeproduct {
     /**
      *
@@ -132,4 +136,7 @@ public class Fridgeproduct {
     public void setProductId(Integer productId) {
         this.productId = productId;
     }
+
+    @Getter @Setter
+    public Product product;
 }

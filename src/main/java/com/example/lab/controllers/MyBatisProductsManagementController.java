@@ -1,9 +1,11 @@
 package com.example.lab.controllers;
 
-import com.example.lab.entities.Product;
-import com.example.lab.entities.ProductType;
-import com.example.lab.persistance.ProductsDAO;
-import com.example.lab.persistance.ProductsTypesDAO;
+import com.example.lab.mybatis.dao.ProductMapper;
+import com.example.lab.mybatis.dao.ProducttypeMapper;
+import com.example.lab.mybatis.dao.ProducttypeProductMapper;
+import com.example.lab.mybatis.model.Product;
+import com.example.lab.mybatis.model.Producttype;
+import com.example.lab.mybatis.model.ProducttypeProduct;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,9 +20,11 @@ import java.util.stream.Collectors;
 @Model
 public class MyBatisProductsManagementController {
     @Inject
-    private ProductsDAO productsDAO;
+    private ProductMapper productMapper;
     @Inject
-    private ProductsTypesDAO productsTypesDAO;
+    private ProducttypeMapper producttypeMapper;
+    @Inject
+    private ProducttypeProductMapper producttypeProductMapper;
 
     @Getter
     @Setter
@@ -30,7 +34,7 @@ public class MyBatisProductsManagementController {
     private List<Product> allProducts;
 
     @Getter
-    private List<ProductType> productTypes;
+    private List<Producttype> productTypes;
 
     @Getter
     @Setter
@@ -44,20 +48,25 @@ public class MyBatisProductsManagementController {
 
     @Transactional
     public void createProduct(){
-        Set<ProductType> productTypeSet = productTypes.stream()
+        Set<Producttype> productTypeSet = productTypes.stream()
                 .filter(m -> selectedProductTypes.contains(m.getId()))
                 .collect(Collectors.toSet());
 
-        productToCreate.setProductTypes(productTypeSet);
+        this.productMapper.insert(productToCreate);
 
-
-        this.productsDAO.persist(productToCreate);
+        for (Producttype productType : productTypeSet) {
+            ProducttypeProduct productTypeProduct = new ProducttypeProduct();
+            productTypeProduct.setProductId(productToCreate.getId());
+            productTypeProduct.setProducttypeId(productType.getId());
+            producttypeProductMapper.insert(productTypeProduct);
+        }
     }
 
     private void loadAllProducts(){
-        this.allProducts = productsDAO.loadAll();
+        this.allProducts = productMapper.selectAll();
     }
+
     private void loadAllProductsTypes(){
-        this.productTypes = productsTypesDAO.loadAll();
+        this.productTypes = producttypeMapper.selectAll();
     }
 }

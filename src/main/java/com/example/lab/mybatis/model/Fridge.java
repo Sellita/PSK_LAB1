@@ -1,5 +1,15 @@
 package com.example.lab.mybatis.model;
 
+import com.example.lab.mybatis.model.Fridgeproduct;
+import com.example.lab.mybatis.model.Manufacturer;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.Set;
+
 public class Fridge {
     /**
      *
@@ -99,4 +109,10 @@ public class Fridge {
     public void setManufacturerId(Integer manufacturerId) {
         this.manufacturerId = manufacturerId;
     }
+
+    @Getter @Setter
+    public Set<Fridgeproduct> fridgeProducts;
+
+    @Getter @Setter
+    private Manufacturer manufacturer;
 }

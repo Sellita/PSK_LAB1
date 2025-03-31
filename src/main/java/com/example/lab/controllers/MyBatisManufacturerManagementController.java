@@ -1,7 +1,7 @@
 package com.example.lab.controllers;
 
-import com.example.lab.entities.Manufacturer;
-import com.example.lab.persistance.ManufacturersDAO;
+import com.example.lab.mybatis.dao.ManufacturerMapper;
+import com.example.lab.mybatis.model.Manufacturer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @Model
 public class MyBatisManufacturerManagementController {
     @Inject
-    private ManufacturersDAO manufacturersDAO;
+    private ManufacturerMapper manufacturerMapper;
 
     @Getter
     @Setter
@@ -30,10 +30,10 @@ public class MyBatisManufacturerManagementController {
 
     @Transactional
     public void createManufacturer(){
-        this.manufacturersDAO.persist(manufacturerToCreate);
+        this.manufacturerMapper.insert(manufacturerToCreate);
     }
 
     private void loadAllManufacturers(){
-        this.allManufacturers = manufacturersDAO.loadAll();
+        this.allManufacturers = manufacturerMapper.selectAll();
     }
 }

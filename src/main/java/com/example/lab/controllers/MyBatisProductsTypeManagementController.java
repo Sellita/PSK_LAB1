@@ -1,7 +1,7 @@
 package com.example.lab.controllers;
 
-import com.example.lab.entities.ProductType;
-import com.example.lab.persistance.ProductsTypesDAO;
+import com.example.lab.mybatis.dao.ProducttypeMapper;
+import com.example.lab.mybatis.model.Producttype;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,14 +14,14 @@ import java.util.List;
 @Model
 public class MyBatisProductsTypeManagementController {
     @Inject
-    private ProductsTypesDAO productsTypesDAO;
+    private ProducttypeMapper producttypeMapper;
 
     @Getter
     @Setter
-    private ProductType productTypeToCreate = new ProductType();
+    private Producttype productTypeToCreate = new Producttype();
 
     @Getter
-    private List<ProductType> allProductsTypes;
+    private List<Producttype> allProductsTypes;
 
     @PostConstruct
     public void init(){
@@ -30,10 +30,10 @@ public class MyBatisProductsTypeManagementController {
 
     @Transactional
     public void createProductType(){
-        this.productsTypesDAO.persist(productTypeToCreate);
+        this.producttypeMapper.insert(productTypeToCreate);
     }
 
     private void loadAllManufacturers(){
-        this.allProductsTypes = productsTypesDAO.loadAll();
+        this.allProductsTypes = producttypeMapper.selectAll();
     }
 }

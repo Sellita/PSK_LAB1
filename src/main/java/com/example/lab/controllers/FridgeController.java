@@ -6,6 +6,8 @@ import com.example.lab.entities.Product;
 import com.example.lab.persistance.FridgeProductDAO;
 import com.example.lab.persistance.FridgesDAO;
 import com.example.lab.persistance.ProductsDAO;
+import com.example.lab.services.SubService;
+import com.example.lab.services.SubServiceSession;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +31,10 @@ public class FridgeController {
     private ProductsDAO productsDAO;
     @Inject
     private FridgeProductDAO fridgeProductDAO;
+    @Inject
+    private SubService subService;
+    @Inject
+    private SubServiceSession subServiceSession;
 
     @Getter @Setter
     private Fridge fridge;
@@ -49,6 +55,26 @@ public class FridgeController {
                 FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         Integer fridgeId = Integer.parseInt(requestParameters.get("fridgeId"));
         this.fridge = fridgesDAO.findOne(fridgeId);
+
+        if(subService.getId() != 0){
+            var appProduct = new FridgeProduct();
+            var product = productsDAO.findOne(subService.getId());
+            System.out.println("Product name: " + product.getName());
+
+            appProduct.setProduct(product);
+            appProduct.setQuantity(subService.getQuantity());
+            fridge.fridgeProducts.add(appProduct);
+        }
+        if(subServiceSession.getId() != 0){
+            var appProduct = new FridgeProduct();
+            var product = productsDAO.findOne(subServiceSession.getId());
+            System.out.println("Product name: " + product.getName());
+
+            appProduct.setProduct(product);
+            appProduct.setQuantity(subServiceSession.getQuantity());
+            fridge.fridgeProducts.add(appProduct);
+        }
+
 
         loadAllProducts();
     }
@@ -93,4 +119,27 @@ public class FridgeController {
         fridgesDAO.persist(fridge);
     }
 
+    public void reduceQuantity(){
+
+
+        new Thread(() -> {
+            try {
+                subService.SubProduct(productIdToChange, quantityToChange);
+            } catch (InterruptedException e) {
+                return;
+            }
+        }).start();
+
+        System.out.println("End of reduceQuantity method");
+
+    }
+
+    public void saveSession() {
+
+        subServiceSession.saveProduct(productIdToChange, quantityToChange);
+
+
+        System.out.println("End of reduceQuantity method");
+
+    }
 }
